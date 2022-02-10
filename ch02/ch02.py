@@ -1,11 +1,11 @@
 # coding: utf-8
 
 
-import numpy as np
-import os
-import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from matplotlib.colors import ListedColormap
+
 
 # Copyright (c) 2019 [Sebastian Raschka](sebastianraschka.com)
 # 
@@ -20,10 +20,7 @@ from matplotlib.colors import ListedColormap
 # Note that the optional watermark extension is a small IPython notebook plugin that I developed to make the code reproducible. You can just skip the following line(s).
 
 
-
-
-
-# *The use of `watermark` is optional. You can install this Jupyter extension via*  
+# *The use of `watermark` is optional. You can install this Jupyter extension via*
 # 
 #     conda install watermark -c conda-forge  
 # 
@@ -50,39 +47,18 @@ from matplotlib.colors import ListedColormap
 # - [Summary](#Summary)
 
 
-
-
-
-
 # # Artificial neurons - a brief glimpse into the early history of machine learning
-
-
-
 
 
 # ## The formal definition of an artificial neuron
 
 
-
-
-
 # ## The perceptron learning rule
-
-
-
-
-
-
-
-
 
 
 # # Implementing a perceptron learning algorithm in Python
 
 # ## An object-oriented perceptron API
-
-
-
 
 
 class Perceptron(object):
@@ -106,6 +82,7 @@ class Perceptron(object):
       Number of misclassifications (updates) in each epoch.
 
     """
+
     def __init__(self, eta=0.01, n_iter=50, random_state=1):
         self.eta = eta
         self.n_iter = n_iter
@@ -150,13 +127,9 @@ class Perceptron(object):
         return np.where(self.net_input(X) >= 0.0, 1, -1)
 
 
-
-
 v1 = np.array([1, 2, 3])
 v2 = 0.5 * v1
 np.arccos(v1.dot(v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))
-
-
 
 # ## Training a perceptron model on the Iris dataset
 
@@ -165,20 +138,17 @@ np.arccos(v1.dot(v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))
 # ### Reading-in the Iris data
 
 
-
-
-
 s = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
 print('URL:', s)
 
-df = pd.read_csv(s,
+#Below changed s for iris.data so that the code works
+df = pd.read_csv("iris.data",
                  header=None,
                  encoding='utf-8')
 
 df.tail()
 
-
-# 
+#
 # ### Note:
 # 
 # 
@@ -193,16 +163,10 @@ df.tail()
 # 
 
 
-
 df = pd.read_csv('iris.data', header=None, encoding='utf-8')
 df.tail()
 
-
-
-
 # ### Plotting the Iris data
-
-
 
 
 # select setosa and versicolor
@@ -225,10 +189,7 @@ plt.legend(loc='upper left')
 # plt.savefig('images/02_06.png', dpi=300)
 plt.show()
 
-
-
 # ### Training the perceptron model
-
 
 
 ppn = Perceptron(eta=0.1, n_iter=10)
@@ -243,15 +204,10 @@ plt.ylabel('Number of updates')
 plt.show()
 
 
-
 # ### A function for plotting decision regions
 
 
-
-
-
 def plot_decision_regions(X, y, classifier, resolution=0.02):
-
     # setup marker generator and color map
     markers = ('s', 'x', 'o', '^', 'v')
     colors = ('red', 'blue', 'lightgreen', 'gray', 'cyan')
@@ -270,14 +226,13 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
 
     # plot class examples
     for idx, cl in enumerate(np.unique(y)):
-        plt.scatter(x=X[y == cl, 0], 
+        plt.scatter(x=X[y == cl, 0],
                     y=X[y == cl, 1],
-                    alpha=0.8, 
+                    alpha=0.8,
                     c=colors[idx],
-                    marker=markers[idx], 
-                    label=cl, 
+                    marker=markers[idx],
+                    label=cl,
                     edgecolor='black')
-
 
 
 
@@ -286,10 +241,8 @@ plt.xlabel('sepal length [cm]')
 plt.ylabel('petal length [cm]')
 plt.legend(loc='upper left')
 
-
 # plt.savefig('images/02_08.png', dpi=300)
 plt.show()
-
 
 
 # # Adaptive linear neurons and the convergence of learning
@@ -299,16 +252,7 @@ plt.show()
 # ## Minimizing cost functions with gradient descent
 
 
-
-
-
-
-
-
-
-
 # ## Implementing an adaptive linear neuron in Python
-
 
 
 class AdalineGD(object):
@@ -333,6 +277,7 @@ class AdalineGD(object):
       Sum-of-squares cost function value in each epoch.
 
     """
+
     def __init__(self, eta=0.01, n_iter=50, random_state=1):
         self.eta = eta
         self.n_iter = n_iter
@@ -371,7 +316,7 @@ class AdalineGD(object):
             errors = (y - output)
             self.w_[1:] += self.eta * X.T.dot(errors)
             self.w_[0] += self.eta * errors.sum()
-            cost = (errors**2).sum() / 2.0
+            cost = (errors ** 2).sum() / 2.0
             self.cost_.append(cost)
         return self
 
@@ -386,8 +331,6 @@ class AdalineGD(object):
     def predict(self, X):
         """Return class label after unit step"""
         return np.where(self.activation(self.net_input(X)) >= 0.0, 1, -1)
-
-
 
 
 fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
@@ -407,28 +350,13 @@ ax[1].set_title('Adaline - Learning rate 0.0001')
 # plt.savefig('images/02_11.png', dpi=300)
 plt.show()
 
-
-
-
-
-
-
-
 # ## Improving gradient descent through feature scaling
-
-
-
-
-
 
 
 # standardize features
 X_std = np.copy(X)
 X_std[:, 0] = (X[:, 0] - X[:, 0].mean()) / X[:, 0].std()
 X_std[:, 1] = (X[:, 1] - X[:, 1].mean()) / X[:, 1].std()
-
-
-
 
 ada_gd = AdalineGD(n_iter=15, eta=0.01)
 ada_gd.fit(X_std, y)
@@ -451,9 +379,7 @@ plt.tight_layout()
 plt.show()
 
 
-
 # ## Large scale machine learning and stochastic gradient descent
-
 
 
 class AdalineSGD(object):
@@ -482,13 +408,14 @@ class AdalineSGD(object):
 
         
     """
+
     def __init__(self, eta=0.01, n_iter=10, shuffle=True, random_state=None):
         self.eta = eta
         self.n_iter = n_iter
         self.w_initialized = False
         self.shuffle = shuffle
         self.random_state = random_state
-        
+
     def fit(self, X, y):
         """ Fit training data.
 
@@ -532,22 +459,22 @@ class AdalineSGD(object):
         """Shuffle training data"""
         r = self.rgen.permutation(len(y))
         return X[r], y[r]
-    
+
     def _initialize_weights(self, m):
         """Initialize weights to small random numbers"""
         self.rgen = np.random.RandomState(self.random_state)
         self.w_ = self.rgen.normal(loc=0.0, scale=0.01, size=1 + m)
         self.w_initialized = True
-        
+
     def _update_weights(self, xi, target):
         """Apply Adaline learning rule to update the weights"""
         output = self.activation(self.net_input(xi))
         error = (target - output)
         self.w_[1:] += self.eta * xi.dot(error)
         self.w_[0] += self.eta * error
-        cost = 0.5 * error**2
+        cost = 0.5 * error ** 2
         return cost
-    
+
     def net_input(self, X):
         """Calculate net input"""
         return np.dot(X, self.w_[1:]) + self.w_[0]
@@ -559,8 +486,6 @@ class AdalineSGD(object):
     def predict(self, X):
         """Return class label after unit step"""
         return np.where(self.activation(self.net_input(X)) >= 0.0, 1, -1)
-
-
 
 
 ada_sgd = AdalineSGD(n_iter=15, eta=0.01, random_state=1)
@@ -584,12 +509,7 @@ plt.tight_layout()
 # plt.savefig('images/02_15_2.png', dpi=300)
 plt.show()
 
-
-
-
 ada_sgd.partial_fit(X_std[0, :], y[0])
-
-
 
 # # Summary
 
@@ -598,7 +518,3 @@ ada_sgd.partial_fit(X_std[0, :], y[0])
 # --- 
 # 
 # Readers may ignore the following cell
-
-
-
-
